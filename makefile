@@ -1,5 +1,6 @@
 COMPILER  = g++
 CFLAGS    = -g -MMD -MP -Wall -Wextra -Winit-self -Wno-missing-field-initializers
+ARGV = 
 ifeq "$(shell getconf LONG_BIT)" "64"
   LDFLAGS =
 else
@@ -28,7 +29,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	-mkdir -p $(OBJDIR)
 	$(COMPILER) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
-all: clean $(TARGET)
+all: clean $(TARGET) $(ARGV)
 
 run : 
 	$(TARGET) 
