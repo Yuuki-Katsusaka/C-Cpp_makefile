@@ -8,7 +8,8 @@ else
 endif
 LIBS      =
 INCLUDE   = -I./include
-TARGET    = ./bin/exe
+TRGDIR    = ./bin
+TARGET    = exe
 SRCDIR    = ./source
 ifeq "$(strip $(SRCDIR))" ""
   SRCDIR  = .
@@ -22,19 +23,19 @@ OBJECTS   = $(addprefix $(OBJDIR)/, $(notdir $(SOURCES:.cpp=.o)))
 DEPENDS   = $(OBJECTS:.o=.d)
 
 $(TARGET): $(OBJECTS) $(LIBS)
-	-mkdir -p ./bin
-	$(COMPILER) -g -o $@ $^ $(LDFLAGS)
+	-mkdir -p $(TRGDIR)
+	$(COMPILER) -g -o $(TRGDIR)/$@ $^ $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	-mkdir -p $(OBJDIR)
 	$(COMPILER) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
-all: clean $(TARGET) $(ARGV)
+all: clean $(TARGET)
 
 run : 
-	$(TARGET) 
+	$(TRGDIR)/$(TARGET) $(ARGV)
 
 clean:
-	-rm -f $(OBJECTS) $(DEPENDS) $(TARGET)
+	-rm -f $(OBJECTS) $(DEPENDS) $(TRGDIR)/$(TARGET)
 
 -include $(DEPENDS)
